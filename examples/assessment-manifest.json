@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "mode": "ASSESS",
+  "status": "ASSESSMENT_COMPLETE",
+  "assessment": {
+    "fit_decision": "PRODUCTIZE",
+    "target_audience": "external_partners",
+    "repeatable_integration": true,
+    "business_capability_maturity": "controlled_pilot",
+    "tenant_boundary": "defined",
+    "data_action_authority": "confirmed",
+    "operational_owner": "defined",
+    "rationale": [
+      "多个外部合作伙伴需要长期接入同一项稳定业务能力",
+      "客户身份、租户边界和运营责任已经明确"
+    ]
+  },
+  "next_steps": [
+    "确认第一批试点客户、能力范围和明确非目标",
+    "以 BASELINE 模式建立机器契约、安全模型、接入材料和验证证据"
+  ]
+}

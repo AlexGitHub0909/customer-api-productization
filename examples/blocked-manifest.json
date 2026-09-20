@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "mode": "BASELINE",
+  "status": "EVIDENCE_BLOCKED",
+  "assessment": {
+    "fit_decision": "DISCOVERY_ONLY",
+    "target_audience": "external_customers",
+    "repeatable_integration": true,
+    "business_capability_maturity": "controlled_pilot",
+    "tenant_boundary": "partial",
+    "data_action_authority": "partial",
+    "operational_owner": "defined",
+    "rationale": [
+      "已有多个客户提出重复接入需求",
+      "跨租户隔离与数据动作授权尚未形成可验证证据"
+    ]
+  },
+  "blockers": [
+    {
+      "issue": "当前没有可用的跨租户隔离测试环境",
+      "impact": "无法证明客户 A 不能读取或操作客户 B 的资源",
+      "next_step": "由平台负责人提供隔离环境，并重新执行对象、列表、文件和事件的跨租户负向用例"
+    }
+  ]
+}

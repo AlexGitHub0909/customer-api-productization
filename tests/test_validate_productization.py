@@ -9,7 +9,8 @@ import unittest
 from pathlib import Path
 
 
-SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "validate_productization.py"
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = ROOT / "scripts" / "validate_productization.py"
 SPEC = importlib.util.spec_from_file_location("validate_productization", SCRIPT)
 assert SPEC and SPEC.loader
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -278,6 +279,40 @@ class ValidateProductizationTest(unittest.TestCase):
             manifest_path = workspace / "manifest.json"
             manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
             self.assertEqual(manifest, MODULE.load_json(manifest_path))
+
+    def test_assessment_example_is_executable(self) -> None:
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                str(ROOT / "examples" / "assessment-manifest.json"),
+                "--workspace",
+                str(ROOT),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+        self.assertIn("ASSESSMENT_COMPLETE", result.stdout)
+
+    def test_blocked_example_is_executable(self) -> None:
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT),
+                str(ROOT / "examples" / "blocked-manifest.json"),
+                "--workspace",
+                str(ROOT),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        self.assertEqual(2, result.returncode, result.stdout + result.stderr)
+        self.assertIn("EVIDENCE_BLOCKED", result.stdout)
 
 
 if __name__ == "__main__":
