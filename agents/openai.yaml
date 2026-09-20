@@ -1,0 +1,4 @@
+interface:
+  display_name: "客户 API 产品化交付"
+  short_description: "把既有业务能力交付为可安全接入、可验证、可运营的客户 API"
+  default_prompt: "使用 $customer-api-productization 评估当前项目，并生成经过质量门禁的客户 API 产品化交付包。"
