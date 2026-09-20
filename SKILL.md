@@ -1,13 +1,13 @@
 ---
 name: customer-api-productization
-description: Assess and turn an existing externally consumed business capability into a governed customer API product with a stable contract, controlled access, safe environments, executable integration material, test evidence, operations support, and release gates. Use for customer or partner API productization, onboarding, expansion, or pre-release hardening. Do not use for internal service APIs, one-off integrations, unstable workflows, or OpenAPI generation alone.
+description: Assess whether an existing business capability is suitable for a customer or partner API, then build or harden a governed external API product with a stable contract, controlled access, safe environments, executable integration material, test evidence, operations support, and release gates. Use for suitability reviews, productization, onboarding, expansion, or pre-release hardening. Do not use for ordinary internal API implementation, one-off integrations, contract generation alone, or as the sole readiness process for a public developer platform.
 ---
 
 # 客户 API 产品化交付
 
 把已经存在、能够被证据验证的业务能力，整理并交付为客户可以长期接入、团队可以持续维护、运营可以安全开通的 API 产品。
 
-本 Skill 的目标不是“多生成几份文档”，而是建立一条从产品边界、运行实现、外部契约、接入材料、测试证据到上线治理的完整交付链。适用性和证据不够时，应停止在评估或阻塞结论，不要用模板补齐一个虚假的“完整 API 产品”。
+这个 Skill 要交付一条可以核验的链路，覆盖产品边界、运行实现、外部契约、接入材料、测试证据和上线治理。单独生成几份文档不算完成。适用性或证据不足时，应停在评估或阻塞结论，不能用模板拼出一个虚假的“完整 API 产品”。
 
 ## 先判断是否适用
 
@@ -32,6 +32,8 @@ description: Assess and turn an existing externally consumed business capability
 
 `DISCOVERY_ONLY` 可以输出事实盘点、风险、缺口和下一步验证计划；不得把它包装成可试点或可上线的交付包。
 
+本 Skill 面向受控的 B2B 客户或合作伙伴 API。匿名注册、自助应用市场和开放生态型开发者平台可以复用其中的契约与安全门禁，但还需要独立补齐注册审核、滥用治理、开发者门户、法律条款、生态运营和大规模支持，不得仅凭本 Skill 判定平台完整。
+
 ## 选择工作模式
 
 - `ASSESS`：只评估适配性、成熟度和阻塞项；
@@ -40,6 +42,13 @@ description: Assess and turn an existing externally consumed business capability
 - `HARDEN`：在试点、正式开放或重要版本前做完整性与风险审查。
 
 未指定时：已有客户 API 和契约用 `HARDEN`；已有业务实现但尚无可靠客户 API 基线用 `BASELINE`；明确新增能力用 `EXPAND`。
+
+## 执行边界
+
+- 用户只要求评估、审查或报告时，保持只读，输出结论、证据和缺口；
+- 用户要求建设、补齐或修复时，在确认 `PRODUCTIZE` 后实施范围内所需的代码、配置、契约、测试、接入材料和运维能力；
+- 发现硬阻塞时先收窄范围或转为 `EVIDENCE_BLOCKED`，不要用文档掩盖未实现能力；
+- 部署、生产开通、数据迁移、客户通知和远程发布始终需要各自明确授权。
 
 ## 不预设项目结构
 
@@ -104,7 +113,7 @@ description: Assess and turn an existing externally consumed business capability
 - 客户可见的机器契约；
 - 认证、租户、环境和凭证生命周期；
 - 接入指南、错误目录、可执行示例和变更记录；
-- 测试矩阵与当前执行证据；
+- 安全模型、测试矩阵与当前验证报告；
 - 运行监控、支持、故障和发布手册；
 - 需求、契约、实现、测试和文档之间的追溯关系。
 
@@ -119,7 +128,7 @@ SDK 不是默认交付物。只有目标客户、语言分布、维护责任、�
 - 可重试写操作有幂等边界；结果未知的外部写入不得盲目重放；
 - 沙箱可以有状态，但不得写入生产业务、触发真实收费或调用真实副作用；
 - Webhook 或事件必须有稳定事件标识、签名、重放防护、投递记录和明确的未知结果策略；
-- API key、签名密钥和恢复码等只在必要时明文展示一次，存储、日志和页面均脱敏；
+- 长期共享密钥、静态 API key 和恢复码只在必要时明文展示一次；其它凭证按各自生命周期处理，存储、日志和页面均不得泄露；
 - 客户可见价格、状态和文件由平台契约表达，不泄露内部成本、路由策略或私有存储位置；
 - 示例、集合和文档中的请求必须可执行，并与当前机器契约及运行时返回一致；
 - “已测试”必须对应当前版本的新鲜执行结果，不能只引用测试文件存在；
@@ -138,6 +147,8 @@ python3 /path/to/customer-api-productization/scripts/validate_productization.py 
 ```
 
 清单是验证输入，不必成为项目长期事实源。校验器只检查结构、证据引用、交付物存在和声明的门禁；它不能代替协议验证器、运行测试、安全审查或人工产品判断。
+
+声明试点或 GA 交付包就绪时，清单必须绑定本次审查范围、源代码或发布版本、带时区的审查时间和本次接受的最早证据时间。契约校验、运行时一致性、示例执行、测试、安全、容量、试点和回滚类门禁必须引用相应类型的执行证据和实际观察时间，不能只引用说明文档。
 
 ## 完成状态
 
